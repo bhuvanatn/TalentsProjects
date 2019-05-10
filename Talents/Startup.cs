@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Talents.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Talents
 {
@@ -27,6 +29,10 @@ namespace Talents
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            //services.AddMvc();
+            services.AddDbContext<TalentsContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("TalentswithReactContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
