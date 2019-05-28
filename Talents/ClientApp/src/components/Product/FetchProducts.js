@@ -1,6 +1,9 @@
 ﻿import React, { Component } from 'react';
-import { Icon, Label, Menu, Table, Button, Modal, Header, Image } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import axios from 'axios';
+import { DeleteProduct } from './DeleteProduct';
+import { EditProduct } from './EditProduct';
+import { CreateProduct } from './CreateProduct';
 
 
 export class FetchProducts extends Component {
@@ -9,7 +12,6 @@ export class FetchProducts extends Component {
         this.state = {
             ProductData: []
         }
-        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -20,54 +22,19 @@ export class FetchProducts extends Component {
             });
         });
     }
-    handleDelete(id) {
-        fetch('https://localhost:44396/api/product/' + id, {
-            method: 'delete'
-        }).then(data => {
-            this.setState(
-                {
-                    ProductData: this.state.ProductData.filter((rec) => {
-                        return (rec.id != id);
-                    })
-                });
-        });
-    }
+   
 
     render() {
         return (
             <div>
-                <h2> Products List </h2>
-                <p>
-                    <a href="/addproduct"><Button primary> Create New </Button> </a>
-                </p>
-
-                <Modal trigger={<Button>Show Modal</Button>}>
-                    <Modal.Header>Select a Photo</Modal.Header>
-                    <Modal.Content image>
-                        <Image
-                            wrapped
-                            size="medium"
-                            src="https://react.semantic-ui.com/images/avatar/large/rachel.png"
-                        />
-                        <Modal.Description>
-                            <Header>Default Profile Image</Header>
-                            <p>
-                                We've found the following gravatar image associated with
-                                your e-mail address.
-        </p>
-                            <p>Is it okay to use this photo?</p>
-                        </Modal.Description>
-                    </Modal.Content>
-                </Modal>
-
-
-
+                <CreateProduct />
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Id</Table.HeaderCell>
                             <Table.HeaderCell>Name</Table.HeaderCell>
-                            <Table.HeaderCell>Product</Table.HeaderCell>
+                            <Table.HeaderCell>Price</Table.HeaderCell>
+                            <Table.HeaderCell>Actions</Table.HeaderCell>
                             <Table.HeaderCell>Actions</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
@@ -75,18 +42,21 @@ export class FetchProducts extends Component {
                     <Table.Body>
                         {this.state.ProductData.map((p) => {
                             return (
-                                <Table.Row>
+                                <Table.Row key={p.id}>
+                                    
                                     <Table.Cell>{p.id} </Table.Cell>
                                     <Table.Cell>{p.productName}</Table.Cell>
                                     <Table.Cell>{p.price}</Table.Cell>
-                                   
-                                    <Table.Cell><a onClick={(id) => this.handleDelete(p.id)}><Button color='red' icon labelPosition='left'><Icon name='delete' />Delete</Button></a> </Table.Cell>
+                                    <Table.Cell>
+                                        <DeleteProduct Delid={p.id} />
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <EditProduct editId={p.id} editName={p.productName} editPrice={p.price} />
+                                    </Table.Cell>
                                 </Table.Row>
                             );
                         })}
                     </Table.Body>
-
-
                 </Table>
             </div>
         );

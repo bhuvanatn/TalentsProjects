@@ -1,23 +1,23 @@
-﻿import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { Icon, Table, Button, Modal, Header, Image } from 'semantic-ui-react';
 import axios from 'axios';
-import { CreatCustomer } from './CreateCustomer';
-import { DeleteCustomer } from './DeleteCustomer';
-import { EditCustomer } from './EditCustomer';
+import { CreateStore } from './CreateStore';
+import { DeleteStore } from './DeleteStore';
+import { EditStore } from './EditStore';
 
 
-export class GetCustomers extends Component {
+export class GetStore extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            CustomerData: []
+            StoreData: []
         }
     }
     componentDidMount() {
-        axios.get("https://localhost:44396/api/customers").then(response => {
+        axios.get("https://localhost:44396/api/stores").then(response => {
             console.log(response.data);
             this.setState({
-                CustomerData: response.data
+                StoreData: response.data
             });
         });
     }
@@ -25,7 +25,7 @@ export class GetCustomers extends Component {
     render() {
         return (
             <div>
-                    <CreatCustomer/>
+                <CreateStore />
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
@@ -38,27 +38,24 @@ export class GetCustomers extends Component {
                     </Table.Header>
 
                     <Table.Body>
-                        {this.state.CustomerData.map((c) => {
+                        {this.state.StoreData.map((st) => {
                             return (
-                                <Table.Row key={c.id}>
-                                    <Table.Cell>{c.id} </Table.Cell>
-                                    <Table.Cell>{c.fullName}</Table.Cell>
-                                    <Table.Cell>{c.address}</Table.Cell>
-                                     <Table.Cell>
-                                        <DeleteCustomer Delid={c.id} />
+                                <Table.Row key={st.id}>
+                                    <Table.Cell>{st.id} </Table.Cell>
+                                    <Table.Cell>{st.storeName}</Table.Cell>
+                                    <Table.Cell>{st.address}</Table.Cell>
+                                    <Table.Cell>
+                                        <DeleteStore Delid={st.id} />
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <EditCustomer editId={c.id} editName={c.fullName} editAddress={c.address} />
+                                        <EditStore editId={st.id} storeName={st.storeName} storeAddress={st.address} />
                                     </Table.Cell>
                                 </Table.Row>
                             );
                         })}
                     </Table.Body>
-
-
                 </Table>
             </div>
         );
     }
 }
-                                    
