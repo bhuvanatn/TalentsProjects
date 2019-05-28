@@ -3,30 +3,30 @@ import { Icon, Label, Menu, Table, Button, Modal, Header, Image } from 'semantic
 import axios from 'axios';
 
 
-export class FetchProducts extends Component {
+export class GetCustomers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ProductData: []
+            CustomerData: []
         }
         this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
-        axios.get("https://localhost:44396/api/products").then(response => {
+        axios.get("https://localhost:44396/api/customers").then(response => {
             console.log(response.data);
             this.setState({
-                ProductData: response.data
+                CustomerData: response.data
             });
         });
     }
     handleDelete(id) {
-        fetch('https://localhost:44396/api/product/' + id, {
+        fetch('https://localhost:44396/api/customer/' + id, {
             method: 'delete'
         }).then(data => {
             this.setState(
                 {
-                    ProductData: this.state.ProductData.filter((rec) => {
+                    CustomerData: this.state.CustomerData.filter((rec) => {
                         return (rec.id != id);
                     })
                 });
@@ -36,9 +36,9 @@ export class FetchProducts extends Component {
     render() {
         return (
             <div>
-                <h2> Products List </h2>
+                <h2> Customers List </h2>
                 <p>
-                    <a href="/addproduct"><Button primary> Create New </Button> </a>
+                    <a href="/addcustomer"><Button primary> Create New </Button> </a>
                 </p>
 
                 <Modal trigger={<Button>Show Modal</Button>}>
@@ -66,21 +66,21 @@ export class FetchProducts extends Component {
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Id</Table.HeaderCell>
-                            <Table.HeaderCell>Name</Table.HeaderCell>
-                            <Table.HeaderCell>Product</Table.HeaderCell>
+                            <Table.HeaderCell>FullName</Table.HeaderCell>
+                            <Table.HeaderCell>Address</Table.HeaderCell>
                             <Table.HeaderCell>Actions</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
 
                     <Table.Body>
-                        {this.state.ProductData.map((p) => {
+                        {this.state.CustomerData.map((c) => {
                             return (
                                 <Table.Row>
-                                    <Table.Cell>{p.id} </Table.Cell>
-                                    <Table.Cell>{p.productName}</Table.Cell>
-                                    <Table.Cell>{p.price}</Table.Cell>
-                                   
-                                    <Table.Cell><a onClick={(id) => this.handleDelete(p.id)}><Button color='red' icon labelPosition='left'><Icon name='delete' />Delete</Button></a> </Table.Cell>
+                                    <Table.Cell>{c.id} </Table.Cell>
+                                    <Table.Cell>{c.fullName}</Table.Cell>
+                                    <Table.Cell>{c.address}</Table.Cell>
+
+                                    <Table.Cell><a onClick={(id) => this.handleDelete(c.id)}><Button color='red' icon labelPosition='left'><Icon name='delete' />Delete</Button></a> </Table.Cell>
                                 </Table.Row>
                             );
                         })}
