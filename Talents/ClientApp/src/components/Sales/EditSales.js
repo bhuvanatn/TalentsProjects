@@ -50,12 +50,18 @@ export class EditSales extends Component {
     }
     onSubmit(e) {
         const editStore = {
+            //id: this.props.editId,
+            //productId: this.props.productId,
+            //customerId: this.props.customerId,
+            //storeId: this.props.storeId,
+            //dateSold: this.props.dateSold
             id: this.props.editId,
-            productId: this.props.productId,
-            customerId: this.props.customerId,
-            storeId: this.props.storeId,
-            dateSold: this.props.dateSold
+            productId: this.refs.productId.value,
+            customerId: this.refs.customerId.value,
+            storeId: this.refs.storeId.value,
+            dateSold: this.refs.dateSold.value
         }
+        console.log("EditStore:", editStore);
         this.handleEdit(editStore);
         e.preventDefault();
     }

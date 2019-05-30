@@ -47,7 +47,9 @@ namespace Talents
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
+            app.UseCors(
+                options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
+                   );
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
